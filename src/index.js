@@ -4,10 +4,11 @@ import './index.css';
 import Card from './Card';
 import reportWebVitals from './reportWebVitals';
 import 'tachyons';
+import { pix } from './pix.js'
 
 ReactDOM.render(
   <React.StrictMode>
-    <Card />
+    <Card title={pix[0].title} url={pix[0].url} explanation={pix[0].explanation} date={pix[0].date} copyright={pix[0].copyright} />
   </React.StrictMode>,
   document.getElementById('root')
 );
