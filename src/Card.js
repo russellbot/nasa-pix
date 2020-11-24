@@ -5,7 +5,7 @@ const Card = (props) => {
     const { name, explanation, date } = props;
     return (
         <div className='card'>
-            <img alt='nasapicture' src='https://robohash.org/test?200x200' />
+            <img alt='nasapicture' src={url} />
             <div>
                 <h2>{name}</h2>
                 <p>{explanation}</p>
