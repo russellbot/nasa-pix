@@ -16,7 +16,7 @@ class App extends React.Component {
             <div>
                 <h1>Nasa Pictures</h1>
                 <SearchBox />
-                <CardList pix={pix} />
+                <CardList pix={this.state.pictures} />
             </div>        
         );
     }    
