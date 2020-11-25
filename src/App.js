@@ -3,12 +3,14 @@ import CardList from './CardList';
 import SearchBox from './SearchBox';
 import { pix } from './pix.js'
 
-const state = {
-    pictures: pix,
-    searchfield: '',
-}
-
 class App extends React.Component {
+    constructor() {
+        super()
+        this.state = {
+            pictures: pix,
+            searchfield: '',
+        }
+    }
     render() {
         return (
             <div>
