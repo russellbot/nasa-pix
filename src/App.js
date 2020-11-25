@@ -11,12 +11,20 @@ class App extends React.Component {
             searchfield: '',
         }
     }
+
+    onSearchChange = (event) => {
+        this.setState({ searchfield: event.target.value })
+    }
+
     render() {
+        const filteredPictures = this.state.pictures.filter(pic => {
+            return pic.title.toLowerCase().includes(this.state.searchfield.toLowerCase());
+        })
         return (
             <div>
                 <h1>Nasa Pictures</h1>
-                <SearchBox />
-                <CardList pix={this.state.pictures} />
+                <SearchBox searchChange={this.onSearchChange} />
+                <CardList pix={filteredPictures} />
             </div>        
         );
     }    
