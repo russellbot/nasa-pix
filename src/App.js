@@ -21,7 +21,7 @@ class App extends React.Component {
             return pic.title.toLowerCase().includes(this.state.searchfield.toLowerCase());
         })
         return (
-            <div>
+            <div className="container">
                 <h1>Nasa Pictures</h1>
                 <SearchBox searchChange={this.onSearchChange} />
                 <CardList pix={filteredPictures} />
