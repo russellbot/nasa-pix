@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchBox from './SearchBox';
 
 const Navigation = () => {
     return (
@@ -10,6 +11,7 @@ const Navigation = () => {
                 <h3>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</h3>
                 <h3 className="clickable">Load More</h3>
             </span>
+            <span className="searchbox"><SearchBox /></span>
         </div>
     )
 }

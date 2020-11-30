@@ -38,6 +38,11 @@ body {
   justify-content: center;
 }
 
+.searchbox {
+  display: flex;
+  justify-content: center;
+}
+
 .background {
   background: whitesmoke;
   position: fixed;
@@ -51,4 +56,14 @@ body {
   color: dodgerblue;
   cursor: pointer;
   user-select: none;
+}
+
+.clickable:hover {
+  color: rgb(5, 93, 180);
+}
+
+/* Images Container */
+.images-container {
+  width: 800px;
+  margin-top: 50px;
 }
