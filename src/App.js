@@ -23,6 +23,11 @@ class App extends React.Component {
         return (
             <div className="container">
                 <h1>Nasa Pictures</h1>
+                <span className="navigation-items" id="resultsNav">
+                    <h3 className="clickable">Favorites</h3>
+                    <h3>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</h3>
+                    <h3 className="clickable">Load More</h3>
+                </span>
                 <SearchBox searchChange={this.onSearchChange} />
                 <CardList pix={filteredPictures} />
             </div>        
