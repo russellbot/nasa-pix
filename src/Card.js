@@ -6,15 +6,14 @@ const Card = (props) => {
     return (
         <div className='card'>
             <a href={hdurl}>
-                <img alt='nasapicture' src={url} />
+                <img alt='nasapicture' className="card-img-top" src={url} />
             </a>            
             <div>
-                <h2 className="card-title">{title}</h2>
-                <p>{explanation}</p>
-                <div className='card-bottom'>
-                    <p>{date}</p>
-                    <p>{copyright}</p>
-                </div>
+                <div className="card-body">
+                    <h2 className="card-title">{title}</h2>
+                    <p>{explanation}</p>
+                    <p>{date}  {copyright}</p>
+                </div>                
             </div>
         </div>
     );
