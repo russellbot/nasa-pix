@@ -9,7 +9,7 @@ const Card = (props) => {
                 <img alt='nasapicture' src={url} />
             </a>            
             <div>
-                <h2>{title}</h2>
+                <h2 className="card-title">{title}</h2>
                 <p>{explanation}</p>
                 <div className='card-bottom'>
                     <p>{date}</p>
