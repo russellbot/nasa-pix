@@ -24,7 +24,7 @@ class App extends React.Component {
         return (
             <div className="container">
                 <Navigation />
-                <SearchBox searchChange={this.onSearchChange} />
+                <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                 <CardList pix={filteredPictures} />
             </div>        
         );
