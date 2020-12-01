@@ -19,7 +19,16 @@ class App extends React.Component {
 
     render() {
         const filteredPictures = this.state.pictures.filter(pic => {
-            return pic.title.toLowerCase().includes(this.state.searchfield.toLowerCase());
+            // Account for pictures with not copyright information
+            if (!pic.copyright) {
+                pic.copyright = '';
+            }
+            // Return pictures with tite, explanation, or copyright that match the searchbox
+            return (
+                pic.title.toLowerCase().includes(this.state.searchfield.toLowerCase()) || 
+                pic.explanation.toLowerCase().includes(this.state.searchfield.toLowerCase()) || 
+                pic.copyright.toLowerCase().includes(this.state.searchfield.toLowerCase())
+            );
         })
         return (
             <div className="container">
