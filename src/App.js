@@ -2,7 +2,6 @@ import React from 'react';
 import CardList from './CardList';
 import SearchBox from './SearchBox';
 import Navigation from './Navigation';
-import { pix } from './pix.js'
 
 class App extends React.Component {
     constructor() {
@@ -14,7 +13,14 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.setState({ pictures: pix})
+        // NASA API
+        const count = 10;
+        const apiKey = 'DEMO_KEY';
+        const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(newPics => this.setState({ pictures: newPics}));
     }
 
     onSearchChange = (event) => {
