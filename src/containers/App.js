@@ -3,7 +3,7 @@ import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
-import "./loaf-rocket-1.svg";
+// import "./loaf-rocket-1.svg";
 
 class App extends React.Component {
     constructor() {
@@ -30,19 +30,18 @@ class App extends React.Component {
     }
 
     render() {
+        const { pictures, searchfield } = this.state;
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
-            if (!pic.copyright) {
-                pic.copyright = '';
-            }
+            if (!pic.copyright) {pic.copyright = '';}
             // Return pictures with tite, explanation, or copyright that match the searchbox
             return (
-                pic.title.toLowerCase().includes(this.state.searchfield.toLowerCase()) || 
-                pic.explanation.toLowerCase().includes(this.state.searchfield.toLowerCase()) || 
-                pic.copyright.toLowerCase().includes(this.state.searchfield.toLowerCase())
+                pic.title.toLowerCase().includes(searchfield.toLowerCase()) || 
+                pic.explanation.toLowerCase().includes(searchfield.toLowerCase()) || 
+                pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
             );
         })
-        if (this.state.pictures.length === 0) {
+        if (pictures.length === 0) {
             return (
                 <Loader />
             );
