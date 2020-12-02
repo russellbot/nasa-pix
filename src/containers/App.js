@@ -1,8 +1,8 @@
 import React from 'react';
-import CardList from './CardList';
-import SearchBox from './SearchBox';
-import Navigation from './Navigation';
-import Loader from './Loader';
+import CardList from '../components/CardList';
+import SearchBox from '../components/SearchBox';
+import Navigation from '../components/Navigation';
+import Loader from '../components/Loader';
 import "./loaf-rocket-1.svg";
 
 class App extends React.Component {
