@@ -8,9 +8,13 @@ class App extends React.Component {
     constructor() {
         super()
         this.state = {
-            pictures: pix,
+            pictures: [],
             searchfield: '',
         }
+    }
+
+    componentDidMount() {
+        this.setState({ pictures: pix})
     }
 
     onSearchChange = (event) => {
@@ -19,7 +23,7 @@ class App extends React.Component {
 
     render() {
         const filteredPictures = this.state.pictures.filter(pic => {
-            // Account for pictures with not copyright information
+            // Account for pictures without copyright information
             if (!pic.copyright) {
                 pic.copyright = '';
             }
