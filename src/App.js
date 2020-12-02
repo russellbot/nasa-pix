@@ -40,13 +40,17 @@ class App extends React.Component {
                 pic.copyright.toLowerCase().includes(this.state.searchfield.toLowerCase())
             );
         })
-        return (
-            <div className="container">
-                <Navigation />
-                <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                <CardList pix={filteredPictures} />
-            </div>        
-        );
+        if (this.state.pictures.length === 0) {
+            return<h1>Loading</h1>
+        } else {
+            return (
+                <div className="container">
+                    <Navigation />
+                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
+                    <CardList pix={filteredPictures} />
+                </div>        
+            );
+        }        
     }    
 }
 
