@@ -96,5 +96,13 @@ h3 {
   .save-confirmed {
     right: 25px;
   }
+
+  .searchbox {
+    top: 100px;
+  }
+
+  .background {
+    height: 128px;
+  }
   
 }
