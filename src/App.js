@@ -2,6 +2,8 @@ import React from 'react';
 import CardList from './CardList';
 import SearchBox from './SearchBox';
 import Navigation from './Navigation';
+import Loader from './Loader';
+import "./loaf-rocket-1.svg";
 
 class App extends React.Component {
     constructor() {
@@ -41,7 +43,9 @@ class App extends React.Component {
             );
         })
         if (this.state.pictures.length === 0) {
-            return<h1>Loading</h1>
+            return (
+                <Loader />
+            );
         } else {
             return (
                 <div className="container">
