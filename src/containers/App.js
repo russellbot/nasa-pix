@@ -34,14 +34,14 @@ class App extends React.Component {
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
             if (!pic.copyright) {pic.copyright = '';}
-            // Return pictures with tite, explanation, or copyright that match the searchbox
+            // Return pictures with tite, explanation, or copyright that match the searchbox            
             return (
                 pic.title.toLowerCase().includes(searchfield.toLowerCase()) || 
                 pic.explanation.toLowerCase().includes(searchfield.toLowerCase()) || 
                 pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
             );
         })
-        if (pictures.length === 0) {
+        if (!pictures.length) {
             return (
                 <Loader />
             );
