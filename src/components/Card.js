@@ -1,8 +1,9 @@
 import React from 'react';
+import Highlighter from 'react-highlight-words';
 import './Card.css'
 
 const Card = (props) => {
-    const { title, explanation, date, url, copyright, hdurl } = props;
+    const { title, explanation, date, url, copyright, hdurl, searchWords } = props;
     return (
         <div className='card'>
             <a href={hdurl}>
@@ -10,9 +11,9 @@ const Card = (props) => {
             </a>            
             <div>
                 <div className="card-body">
-                    <h2 className="card-title">{title}</h2>
-                    <p>{explanation}</p>
-                    <h5>{date} &nbsp;&nbsp; {copyright}</h5>
+                    <Highlighter className="card-title" highlightClassName="highlight" searchWords={[searchWords]} textToHighlight={title} autoEscape={true} />
+                    <p><Highlighter className="card-explanation" highlightClassName="highlight" searchWords={[searchWords]} textToHighlight={explanation} autoEscape={true} /></p>
+                    <h5>{date} &nbsp;&nbsp; <Highlighter className="card-copyright" highlightClassName="highlight" searchWords={[searchWords]} textToHighlight={copyright} autoEscape={true} /></h5>
                 </div>                
             </div>
         </div>

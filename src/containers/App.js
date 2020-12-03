@@ -41,6 +41,7 @@ class App extends React.Component {
                 pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
             );
         })
+        const searchWords = searchfield;
         if (!pictures.length) {
             return (
                 <Loader />
@@ -50,7 +51,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation />
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={filteredPictures} />
+                    <CardList pix={filteredPictures} searchWords={searchWords} />
                 </div>        
             );
         }        
