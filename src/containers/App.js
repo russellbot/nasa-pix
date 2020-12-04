@@ -10,12 +10,22 @@ class App extends React.Component {
         super()
         this.state = {
             pictures: [],
+            favorites: [],
+            page: 'home',
             searchfield: '',
         }
     }
 
     componentDidMount() {
-        // NASA API
+        this.loadMorePictures();
+    }
+
+    onSearchChange = (event) => {
+        this.setState({ searchfield: event.target.value })
+    }
+
+    loadMorePictures = () => {
+        this.setState({ page: 'home' })
         const count = 10;
         const apiKey = 'DEMO_KEY';
         const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
@@ -25,12 +35,23 @@ class App extends React.Component {
             .then(newPics => this.setState({ pictures: newPics}));
     }
 
-    onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value })
+    loadFavorites = () => {
+        if(localStorage.getItem('nasaFavorites')) {
+            this.setState({ favorites: JSON.parse(localStorage.getItem('nasaFavorites'))}) 
+        }
+        this.setState({ page: 'favorites' })
+    }
+
+    saveFavorite = (pic) => {
+        // add picture to favorites array
+        this.setState(prevState => ({
+            favorites: [...prevState.favorites, pic.object]
+        }))
+        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
     }
 
     render() {
-        const { pictures, searchfield } = this.state;
+        const { pictures, searchfield, favorites } = this.state;
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
             if (!pic.copyright) {pic.copyright = '';}
@@ -46,15 +67,23 @@ class App extends React.Component {
             return (
                 <Loader />
             );
-        } else {
+        } else if (this.state.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation />
+                    <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={filteredPictures} searchWords={searchWords} />
+                    <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                 </div>        
             );
-        }        
+        } else if (this.state.page === 'favorites') {
+            return (
+                <div className="container">
+                    <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
+                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
+                    <CardList pix={favorites} searchWords={searchWords} />
+                </div>
+            ); 
+        }      
     }    
 }
 
