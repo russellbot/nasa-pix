@@ -42,8 +42,26 @@ class App extends React.Component {
         this.setState({ page: 'favorites' })
     }
 
+    saveFavorite = (url) => {
+        console.log(url);
+        // this.setState ({ favorites: event.target.value });
+        // this.state.pictures.forEach((pic) => {
+        //     if(pic.url.includes(itemUrl) && !this.state.favorites[itemUrl]) {
+        //         this.setState(state => {
+        //             const favorites = state.favorites.concat(state.value);
+
+        //             return {
+        //                 favorites,
+        //                 value: ''
+        //             }
+        //         })
+                
+        //     }
+        // })
+    }
+
     render() {
-        const { pictures, searchfield } = this.state;
+        const { pictures, searchfield, favorites } = this.state;
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
             if (!pic.copyright) {pic.copyright = '';}
@@ -64,7 +82,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={filteredPictures} searchWords={searchWords} />
+                    <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                 </div>        
             );
         } else if (this.state.page === 'favorites') {
@@ -72,6 +90,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
+                    <CardList pix={favorites} searchWords={searchWords} />
                 </div>
             ); 
         }      
