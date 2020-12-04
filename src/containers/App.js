@@ -25,6 +25,7 @@ class App extends React.Component {
     }
 
     loadMorePictures = () => {
+        this.setState({ page: 'home' })
         const count = 10;
         const apiKey = 'DEMO_KEY';
         const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
@@ -32,8 +33,6 @@ class App extends React.Component {
         fetch(apiUrl)
             .then(response => response.json())
             .then(newPics => this.setState({ pictures: newPics}));
-        
-        this.setState({ page: 'home' })
     }
 
     loadFavorites = () => {
@@ -71,7 +70,7 @@ class App extends React.Component {
         } else if (this.state.page === 'favorites') {
             return (
                 <div className="container">
-                    <Navigation />
+                    <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                 </div>
             ); 
