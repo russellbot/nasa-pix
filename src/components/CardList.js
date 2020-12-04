@@ -15,7 +15,8 @@ const CardList = ({ pix, searchWords, saveFavorite }) => {
                             url={pix[i].url} 
                             explanation={pix[i].explanation} 
                             date={pix[i].date} 
-                            copyright={pix[i].copyright} 
+                            copyright={pix[i].copyright}
+                            object={pix[i]} 
                         />
                     )
                 })

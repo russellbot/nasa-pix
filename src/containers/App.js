@@ -36,28 +36,18 @@ class App extends React.Component {
     }
 
     loadFavorites = () => {
-        if(localStorage.getItem('nasaPixFavorites')) {
-            this.setState({ favorites: JSON.parse(localStorage.getItem('nasaPixFavorites'))}) 
+        if(localStorage.getItem('nasaFavorites')) {
+            this.setState({ favorites: JSON.parse(localStorage.getItem('nasaFavorites'))}) 
         }
         this.setState({ page: 'favorites' })
     }
 
-    saveFavorite = (url) => {
-        console.log(url);
-        // this.setState ({ favorites: event.target.value });
-        // this.state.pictures.forEach((pic) => {
-        //     if(pic.url.includes(itemUrl) && !this.state.favorites[itemUrl]) {
-        //         this.setState(state => {
-        //             const favorites = state.favorites.concat(state.value);
-
-        //             return {
-        //                 favorites,
-        //                 value: ''
-        //             }
-        //         })
-                
-        //     }
-        // })
+    saveFavorite = (pic) => {
+        // add picture to favorites array
+        this.setState(prevState => ({
+            favorites: [...prevState.favorites, pic.object]
+        }))
+        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
     }
 
     render() {
