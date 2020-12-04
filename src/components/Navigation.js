@@ -1,7 +1,7 @@
 import React from 'react';
 // import SearchBox from './SearchBox';
 
-const Navigation = () => {
+const Navigation = ({ loadmore }) => {
     return (
         <div className="navigation-container">
             <span className="background"></span>
@@ -9,7 +9,7 @@ const Navigation = () => {
             <span className="navigation-items" id="resultsNav">
                 <h3 className="clickable">Favorites</h3>
                 <h3>&nbsp;&nbsp;&nbsp;•&nbsp;&nbsp;&nbsp;</h3>
-                <h3 className="clickable">Load More</h3>
+                <h3 className="clickable" onClick={loadmore}>Load More</h3>
             </span>
             {/* <span className="searchbox"><SearchBox /></span> */}
         </div>

@@ -11,13 +11,20 @@ class App extends React.Component {
         this.state = {
             pictures: [],
             favorites: [],
-            page: 'loadmore',
+            page: 'home',
             searchfield: '',
         }
     }
 
     componentDidMount() {
-        // NASA API
+        this.loadMorePictures();
+    }
+
+    onSearchChange = (event) => {
+        this.setState({ searchfield: event.target.value })
+    }
+
+    loadMorePictures = () => {
         const count = 10;
         const apiKey = 'DEMO_KEY';
         const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
@@ -25,10 +32,15 @@ class App extends React.Component {
         fetch(apiUrl)
             .then(response => response.json())
             .then(newPics => this.setState({ pictures: newPics}));
+        
+        this.setState({ page: 'home' })
     }
 
-    onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value })
+    loadFavorites = () => {
+        if(localStorage.getItem('nasaPixFavorites')) {
+            this.setState({ favorites: JSON.parse(localStorage.getItem('nasaPixFavorites'))}) 
+        }
+        this.setState({ page: 'favorites' })
     }
 
     render() {
@@ -48,15 +60,22 @@ class App extends React.Component {
             return (
                 <Loader />
             );
-        } else if (this.state.page === 'loadmore') {
+        } else if (this.state.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation />
+                    <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                     <CardList pix={filteredPictures} searchWords={searchWords} />
                 </div>        
             );
-        }        
+        } else if (this.state.page === 'favorites') {
+            return (
+                <div className="container">
+                    <Navigation />
+                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
+                </div>
+            ); 
+        }      
     }    
 }
 
