@@ -10,6 +10,8 @@ class App extends React.Component {
         super()
         this.state = {
             pictures: [],
+            favorites: [],
+            page: 'loadmore',
             searchfield: '',
         }
     }
@@ -46,7 +48,7 @@ class App extends React.Component {
             return (
                 <Loader />
             );
-        } else {
+        } else if (this.state.page === 'loadmore') {
             return (
                 <div className="container">
                     <Navigation />
