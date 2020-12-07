@@ -42,16 +42,34 @@ class App extends React.Component {
         this.setState({ page: 'favorites' })
     }
 
-    saveFavorite = (pic) => {
-        // add picture to favorites array
-        this.setState(prevState => ({
-            favorites: [...prevState.favorites, pic.object]
-        }))
+    saveFavorite = (picture) => {
+        // check if picture already exists in favorites
+        if(!this.state.favorites.includes(picture.object)) {
+            // add picture to favorites array
+            this.setState(prevState => ({
+                favorites: [...prevState.favorites, picture.object]
+            }))
+        }
+        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));       
+    }
+
+    removeFavorite = (picture) => {
+        let array = [...this.state.favorites]; // make a copy of the favorites array
+        console.log('array', array)
+        let index = array.indexOf(picture.object)
+        console.log('index', index)
+        if (index !== -1) {
+            array.splice(index, 1);
+            this.setState({ favorites: array });
+        }
+        console.log('new array', array)
+        // Set favorites in localStorage
         localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
     }
 
     render() {
-        const { pictures, searchfield, favorites } = this.state;
+        const { pictures, searchfield, favorites, page } = this.state;
+
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
             if (!pic.copyright) {pic.copyright = '';}
@@ -62,7 +80,9 @@ class App extends React.Component {
                 pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
             );
         })
+
         const searchWords = searchfield;
+
         if (!pictures.length) {
             return (
                 <Loader />
@@ -70,7 +90,7 @@ class App extends React.Component {
         } else if (this.state.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
+                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                     <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                 </div>        
@@ -78,9 +98,9 @@ class App extends React.Component {
         } else if (this.state.page === 'favorites') {
             return (
                 <div className="container">
-                    <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
+                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={favorites} searchWords={searchWords} />
+                    <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
                 </div>
             ); 
         }      
