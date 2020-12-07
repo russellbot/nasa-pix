@@ -52,6 +52,7 @@ class App extends React.Component {
 
     render() {
         const { pictures, searchfield, favorites } = this.state;
+
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
             if (!pic.copyright) {pic.copyright = '';}
@@ -62,7 +63,18 @@ class App extends React.Component {
                 pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
             );
         })
+
+        const removeFavorite = (picture) => {
+            let array = [...favorites]; // make a copy of the favorites array
+            let index = array.indexOf(picture.object)
+            if (index !== -1) {
+                array.splice(index, 1);
+                this.setState({ favorites: array });
+            }
+        }
+
         const searchWords = searchfield;
+
         if (!pictures.length) {
             return (
                 <Loader />
@@ -80,7 +92,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadmore={this.loadMorePictures} favorites={this.loadFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={favorites} searchWords={searchWords} />
+                    <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} />
                 </div>
             ); 
         }      
