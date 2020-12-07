@@ -1,7 +1,7 @@
 import React from 'react';
 import Card from './Card';
 
-const CardList = ({ pix, searchWords, saveFavorite, removeFavorite }) => {
+const CardList = ({ pix, searchWords, saveFavorite, removeFavorite, page }) => {
     return (
         <div className='images-container'>
             {
@@ -17,7 +17,8 @@ const CardList = ({ pix, searchWords, saveFavorite, removeFavorite }) => {
                             explanation={pix[i].explanation} 
                             date={pix[i].date} 
                             copyright={pix[i].copyright}
-                            object={pix[i]} 
+                            object={pix[i]}
+                            page={page}
                         />
                     )
                 })
