@@ -17,11 +17,8 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        if (this.state.page === 'favorites') {
-            this.loadFavorites();
-        } else {
-            this.loadMorePictures();
-        }            
+        this.loadFavorites();
+        this.loadMorePictures();                  
     }
 
     onSearchChange = (event) => {
@@ -43,6 +40,9 @@ class App extends React.Component {
         if(localStorage.getItem('nasaFavorites')) {
             this.setState({ favorites: JSON.parse(localStorage.getItem('nasaFavorites'))}) 
         }
+    }
+
+    loadFavoritesPage = () => {
         this.setState({ page: 'favorites' })
     }
 
@@ -58,17 +58,28 @@ class App extends React.Component {
     }
 
     removeFavorite = (picture) => {
-        let array = [...this.state.favorites]; // make a copy of the favorites array
-        console.log('array', array)
-        let index = array.indexOf(picture.object)
-        console.log('index', index)
+        let { favorites } = this.state;
+        let index = favorites.indexOf(picture.object);
         if (index !== -1) {
-            array.splice(index, 1);
-            this.setState({ favorites: array });
+            favorites.splice(index, 1);
+            this.setState({favorites: favorites})
+            localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
         }
-        console.log('new array', array)
+
+        console.log(this.state.favorites);
+        
+        // let array = [...this.state.favorites]; // make a copy of the favorites array
+        // console.log('array', array)
+        // let index = array.indexOf(picture.object)
+        // console.log('index', index)
+        // if (index !== -1) {
+        //     array.splice(index, 1);
+        //     this.setState({ favorites: array });
+        // }
+        // console.log('new array', array)
+        // console.log('favorites', this.state.favorites)
         // Set favorites in localStorage
-        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
+        
     }
 
     render() {
@@ -94,7 +105,7 @@ class App extends React.Component {
         } else if (this.state.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavorites}/>
+                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                     <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                 </div>        
@@ -102,7 +113,7 @@ class App extends React.Component {
         } else if (this.state.page === 'favorites') {
             return (
                 <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavorites}/>
+                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                     <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
                 </div>
