@@ -17,7 +17,11 @@ class App extends React.Component {
     }
 
     componentDidMount() {
-        this.loadMorePictures();
+        if (this.state.page === 'favorites') {
+            this.loadFavorites();
+        } else {
+            this.loadMorePictures();
+        }            
     }
 
     onSearchChange = (event) => {
@@ -43,14 +47,14 @@ class App extends React.Component {
     }
 
     saveFavorite = (picture) => {
+        let { favorites } = this.state;
         // check if picture already exists in favorites
-        if(!this.state.favorites.includes(picture.object)) {
+        if(!favorites.includes(picture.object)) {
             // add picture to favorites array
-            this.setState(prevState => ({
-                favorites: [...prevState.favorites, picture.object]
-            }))
+            favorites.push(picture.object)
+            this.setState({favorites: favorites})
         }
-        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));       
+        localStorage.setItem('nasaFavorites', JSON.stringify(favorites));       
     }
 
     removeFavorite = (picture) => {
