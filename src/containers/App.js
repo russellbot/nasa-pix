@@ -4,7 +4,6 @@ import SearchBox from '../components/SearchBox';
 import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
-// import "./loaf-rocket-1.svg";
 
 class App extends React.Component {
     constructor() {
@@ -13,6 +12,7 @@ class App extends React.Component {
             pictures: [],
             favorites: [],
             page: 'home',
+            isAdded: false,
             searchfield: '',
         }
     }
@@ -54,7 +54,13 @@ class App extends React.Component {
             // add picture to favorites array
             favorites.push(picture.object)
             this.setState({favorites: favorites})
+            // Show save confirmation for 2 seconds
+            this.setState({isAdded: true})
+            setTimeout(() => {
+                this.setState({isAdded: false})
+            }, 2000);
         }
+        // Set favorites in localStorage
         localStorage.setItem('nasaFavorites', JSON.stringify(favorites));       
     }
 
@@ -69,7 +75,7 @@ class App extends React.Component {
     }
 
     render() {
-        const { pictures, searchfield, favorites, page } = this.state;
+        const { pictures, searchfield, favorites, page, isAdded } = this.state;
 
         const filteredPictures = this.state.pictures.filter(pic => {
             // Account for pictures without copyright information
@@ -94,7 +100,7 @@ class App extends React.Component {
                     <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                     <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
-                    <Added />
+                    <Added isAdded={isAdded} />
                 </div>        
             );
         } else if (this.state.page === 'favorites') {
