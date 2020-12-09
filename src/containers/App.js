@@ -3,6 +3,7 @@ import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
+import Added from '../components/Added';
 // import "./loaf-rocket-1.svg";
 
 class App extends React.Component {
@@ -64,22 +65,7 @@ class App extends React.Component {
             favorites.splice(index, 1);
             this.setState({favorites: favorites})
             localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
-        }
-
-        console.log(this.state.favorites);
-        
-        // let array = [...this.state.favorites]; // make a copy of the favorites array
-        // console.log('array', array)
-        // let index = array.indexOf(picture.object)
-        // console.log('index', index)
-        // if (index !== -1) {
-        //     array.splice(index, 1);
-        //     this.setState({ favorites: array });
-        // }
-        // console.log('new array', array)
-        // console.log('favorites', this.state.favorites)
-        // Set favorites in localStorage
-        
+        }        
     }
 
     render() {
@@ -108,6 +94,7 @@ class App extends React.Component {
                     <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
                     <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
                     <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
+                    <Added />
                 </div>        
             );
         } else if (this.state.page === 'favorites') {
