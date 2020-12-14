@@ -1,32 +1,32 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            pictures: [],
-            favorites: [],
-            page: 'home',
-            isAdded: false,
-            searchfield: '',
-        }
-    }
+function App() {
+    // constructor() {
+    //     super()
+    //     this.state = {
+    //         pictures: [],
+    //         favorites: [],
+    //         page: 'home',
+    //         isAdded: false,
+    //         searchfield: '',
+    //     }
+    // }
 
-    componentDidMount() {
-        this.loadFavorites();
-        this.loadMorePictures();                  
-    }
+    // componentDidMount() {
+    //     this.loadFavorites();
+    //     this.loadMorePictures();                  
+    // }
 
-    onSearchChange = (event) => {
+    const onSearchChange = (event) => {
         this.setState({ searchfield: event.target.value })
     }
 
-    loadMorePictures = () => {
+    const loadMorePictures = () => {
         this.setState({ page: 'home' })
         const count = 10;
         const apiKey = 'DEMO_KEY';
@@ -37,17 +37,17 @@ class App extends React.Component {
             .then(newPics => this.setState({ pictures: newPics}));
     }
 
-    loadFavorites = () => {
+    const loadFavorites = () => {
         if(localStorage.getItem('nasaFavorites')) {
             this.setState({ favorites: JSON.parse(localStorage.getItem('nasaFavorites'))}) 
         }
     }
 
-    loadFavoritesPage = () => {
+    const loadFavoritesPage = () => {
         this.setState({ page: 'favorites' })
     }
 
-    saveFavorite = (picture) => {
+    const saveFavorite = (picture) => {
         let { favorites } = this.state;
         // check if picture already exists in favorites
         if(!favorites.includes(picture.object)) {
@@ -64,7 +64,7 @@ class App extends React.Component {
         localStorage.setItem('nasaFavorites', JSON.stringify(favorites));       
     }
 
-    removeFavorite = (picture) => {
+    const removeFavorite = (picture) => {
         let { favorites } = this.state;
         let index = favorites.indexOf(picture.object);
         if (index !== -1) {
@@ -74,7 +74,7 @@ class App extends React.Component {
         }        
     }
 
-    render() {
+    
         const { pictures, searchfield, favorites, page, isAdded } = this.state;
 
         const filteredPictures = this.state.pictures.filter(pic => {
@@ -88,31 +88,30 @@ class App extends React.Component {
             );
         })
 
-        const searchWords = searchfield;
+    const searchWords = searchfield;
 
-        if (!pictures.length) {
-            return (
-                <Loader />
-            );
-        } else if (this.state.page === 'home') {
-            return (
-                <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
-                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
-                    <Added isAdded={isAdded} />
-                </div>        
-            );
-        } else if (this.state.page === 'favorites') {
-            return (
-                <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
-                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
-                </div>
-            ); 
-        }      
-    }    
+    if (!pictures.length) {
+        return (
+            <Loader />
+        );
+    } else if (this.state.page === 'home') {
+        return (
+            <div className="container">
+                <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
+                <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
+                <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
+                <Added isAdded={isAdded} />
+            </div>        
+        );
+    } else if (this.state.page === 'favorites') {
+        return (
+            <div className="container">
+                <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
+                <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
+                <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
+            </div>
+        ); 
+    }             
 }
 
 export default App;
