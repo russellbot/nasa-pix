@@ -16,6 +16,11 @@ function App() {
     //         searchfield: '',
     //     }
     // }
+    const [pictures, setPictures] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const [page, setPage] = useState('home');
+    const [isAdded, setIsAdded] = useState(false);
+    const [searchfield, setSearchfield] = useState('');
 
     // componentDidMount() {
     //     this.loadFavorites();
