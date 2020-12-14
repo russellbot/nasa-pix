@@ -26,6 +26,10 @@ function App() {
     //     this.loadFavorites();
     //     this.loadMorePictures();                  
     // }
+    useEffect(() => {
+        loadFavorites();
+        loadMorePictures();  
+    },[])
 
     const onSearchChange = (event) => {
         setSearchfield(event.target.value)
