@@ -97,18 +97,18 @@ function App() {
     } else if (this.state.page === 'home') {
         return (
             <div className="container">
-                <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
-                <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
+                <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
+                <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
+                <CardList pix={filteredPictures} saveFavorite={saveFavorite} searchWords={searchWords} />
                 <Added isAdded={isAdded} />
             </div>        
         );
     } else if (this.state.page === 'favorites') {
         return (
             <div className="container">
-                <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
-                <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
+                <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
+                <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
+                <CardList pix={favorites} removeFavorite={removeFavorite} searchWords={searchWords} page={page} />
             </div>
         ); 
     }             
