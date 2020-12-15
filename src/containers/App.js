@@ -1,118 +1,126 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            pictures: [],
-            favorites: [],
-            page: 'home',
-            isAdded: false,
-            searchfield: '',
-        }
+function App() {
+    // constructor() {
+    //     super()
+    //     this.state = {
+    //         pictures: [],
+    //         favorites: [],
+    //         page: 'home',
+    //         isAdded: false,
+    //         searchfield: '',
+    //     }
+    // }
+    const [pictures, setPictures] = useState([]);
+    const [favorites, setFavorites] = useState([]);
+    const [page, setPage] = useState('home');
+    const [isAdded, setIsAdded] = useState(false);
+    const [searchfield, setSearchfield] = useState('');
+
+    // componentDidMount() {
+    //     this.loadFavorites();
+    //     this.loadMorePictures();                  
+    // }
+    useEffect(() => {
+        loadMorePictures();  
+    },[])
+
+    useEffect(() => {
+        loadFavorites();
+    },[favorites])
+
+    const onSearchChange = (event) => {
+        setSearchfield(event.target.value)
     }
 
-    componentDidMount() {
-        this.loadFavorites();
-        this.loadMorePictures();                  
-    }
-
-    onSearchChange = (event) => {
-        this.setState({ searchfield: event.target.value })
-    }
-
-    loadMorePictures = () => {
-        this.setState({ page: 'home' })
+    const loadMorePictures = () => {
+        setPage('home');
         const count = 10;
         const apiKey = 'DEMO_KEY';
         const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
 
         fetch(apiUrl)
             .then(response => response.json())
-            .then(newPics => this.setState({ pictures: newPics}));
+            .then(newPics => setPictures(newPics));
     }
 
-    loadFavorites = () => {
+    const loadFavorites = () => {
         if(localStorage.getItem('nasaFavorites')) {
-            this.setState({ favorites: JSON.parse(localStorage.getItem('nasaFavorites'))}) 
+            setFavorites(JSON.parse(localStorage.getItem('nasaFavorites'))) 
         }
     }
 
-    loadFavoritesPage = () => {
-        this.setState({ page: 'favorites' })
+    const loadFavoritesPage = () => {
+        setPage('favorites');
     }
 
-    saveFavorite = (picture) => {
-        let { favorites } = this.state;
+    const saveFavorite = (picture) => {
+        let newFavorites = favorites;
         // check if picture already exists in favorites
-        if(!favorites.includes(picture.object)) {
+        if(!newFavorites.includes(picture.object)) {
             // add picture to favorites array
-            favorites.push(picture.object)
-            this.setState({favorites: favorites})
+            newFavorites.push(picture.object)
+            setFavorites(newFavorites);
             // Show save confirmation for 2 seconds
-            this.setState({isAdded: true})
+            setIsAdded(true);
             setTimeout(() => {
-                this.setState({isAdded: false})
+                setIsAdded(false);
             }, 2000);
         }
         // Set favorites in localStorage
         localStorage.setItem('nasaFavorites', JSON.stringify(favorites));       
     }
 
-    removeFavorite = (picture) => {
-        let { favorites } = this.state;
-        let index = favorites.indexOf(picture.object);
+    const removeFavorite = (picture) => {
+        let newFavorites = favorites
+        let index = newFavorites.indexOf(picture.object);
         if (index !== -1) {
-            favorites.splice(index, 1);
-            this.setState({favorites: favorites})
-            localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
+            newFavorites.splice(index, 1);
+            setFavorites(newFavorites);
+            localStorage.setItem('nasaFavorites', JSON.stringify(favorites));
         }        
     }
+    
+    const filteredPictures = pictures.filter(pic => {
+        // Account for pictures without copyright information
+        if (!pic.copyright) {pic.copyright = '';}
+        // Return pictures with tite, explanation, or copyright that match the searchbox            
+        return (
+            pic.title.toLowerCase().includes(searchfield.toLowerCase()) || 
+            pic.explanation.toLowerCase().includes(searchfield.toLowerCase()) || 
+            pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
+        );
+    })
 
-    render() {
-        const { pictures, searchfield, favorites, page, isAdded } = this.state;
+    const searchWords = searchfield;
 
-        const filteredPictures = this.state.pictures.filter(pic => {
-            // Account for pictures without copyright information
-            if (!pic.copyright) {pic.copyright = '';}
-            // Return pictures with tite, explanation, or copyright that match the searchbox            
-            return (
-                pic.title.toLowerCase().includes(searchfield.toLowerCase()) || 
-                pic.explanation.toLowerCase().includes(searchfield.toLowerCase()) || 
-                pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
-            );
-        })
-
-        const searchWords = searchfield;
-
-        if (!pictures.length) {
-            return (
-                <Loader />
-            );
-        } else if (this.state.page === 'home') {
-            return (
-                <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
-                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={filteredPictures} saveFavorite={this.saveFavorite} searchWords={searchWords} />
-                    <Added isAdded={isAdded} />
-                </div>        
-            );
-        } else if (this.state.page === 'favorites') {
-            return (
-                <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
-                    <span className="searchbox"><SearchBox searchChange={this.onSearchChange} /></span>
-                    <CardList pix={favorites} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
-                </div>
-            ); 
-        }      
-    }    
+    if (!pictures.length) {
+        return (
+            <Loader />
+        );
+    } else if (page === 'home') {
+        return (
+            <div className="container">
+                <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
+                <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
+                <CardList pix={filteredPictures} saveFavorite={saveFavorite} searchWords={searchWords} />
+                <Added isAdded={isAdded} />
+            </div>        
+        );
+    } else if (page === 'favorites') {
+        return (
+            <div className="container">
+                <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
+                <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
+                <CardList pix={favorites} removeFavorite={removeFavorite} searchWords={searchWords} page={page} />
+            </div>
+        ); 
+    }             
 }
 
 export default App;

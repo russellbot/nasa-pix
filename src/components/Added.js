@@ -8,11 +8,8 @@ const Added = ({ isAdded }) => {
             </div>
         );
     } else {
-        return (
-            <div className="save-confirmed">
-            </div>
-        );
-    }   
+        return (<div></div>);
+    }       
 }
 
 export default Added;
