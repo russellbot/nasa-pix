@@ -27,9 +27,12 @@ function App() {
     //     this.loadMorePictures();                  
     // }
     useEffect(() => {
-        loadFavorites();
         loadMorePictures();  
     },[])
+
+    useEffect(() => {
+        loadFavorites();
+    },[favorites])
 
     const onSearchChange = (event) => {
         setSearchfield(event.target.value)
@@ -53,7 +56,7 @@ function App() {
     }
 
     const loadFavoritesPage = () => {
-        setPage(favorites);
+        setPage('favorites');
     }
 
     const saveFavorite = (picture) => {
