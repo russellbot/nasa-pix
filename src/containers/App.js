@@ -27,11 +27,8 @@ function App() {
     //     this.loadMorePictures();                  
     // }
     useEffect(() => {
-        loadMorePictures();  
-    },[])
-
-    useEffect(() => {
-        loadFavorites();
+        loadMorePictures();
+        loadFavorites();  
     },[])
 
     const onSearchChange = (event) => {
@@ -55,8 +52,13 @@ function App() {
         }
     }
 
+    const saveFavoritesLocalStorage = () => {
+        localStorage.setItem('nasaFavorites', JSON.stringify(favorites));
+    }
+
     const loadFavoritesPage = () => {
         setPage('favorites');
+        loadFavorites();
     }
 
     const saveFavorite = (picture) => {
@@ -82,20 +84,10 @@ function App() {
         if (index !== -1) {
             newFavorites.splice(index, 1);
             setFavorites(newFavorites);
-            localStorage.setItem('nasaFavorites', JSON.stringify(favorites));
+            saveFavoritesLocalStorage();
+            loadFavorites();
         }        
     }
-    
-    const filteredPictures = pictures.filter(pic => {
-        // Account for pictures without copyright information
-        if (!pic.copyright) {pic.copyright = '';}
-        // Return pictures with tite, explanation, or copyright that match the searchbox            
-        return (
-            pic.title.toLowerCase().includes(searchfield.toLowerCase()) || 
-            pic.explanation.toLowerCase().includes(searchfield.toLowerCase()) || 
-            pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
-        );
-    })
     
     const filterPictures = (array) => array.filter(pic => {
         // Account for pictures without copyright information
