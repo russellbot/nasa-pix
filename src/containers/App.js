@@ -96,6 +96,17 @@ function App() {
             pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
         );
     })
+    
+    const filteredFavorites = favorites.filter(pic => {
+        // Account for pictures without copyright information
+        if (!pic.copyright) {pic.copyright = '';}
+        // Return pictures with tite, explanation, or copyright that match the searchbox            
+        return (
+            pic.title.toLowerCase().includes(searchfield.toLowerCase()) || 
+            pic.explanation.toLowerCase().includes(searchfield.toLowerCase()) || 
+            pic.copyright.toLowerCase().includes(searchfield.toLowerCase())
+        );
+    })
 
     const searchWords = searchfield;
 
@@ -117,7 +128,7 @@ function App() {
             <div className="container">
                 <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
                 <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                <CardList pix={favorites} removeFavorite={removeFavorite} searchWords={searchWords} page={page} />
+                <CardList pix={filteredFavorites} removeFavorite={removeFavorite} searchWords={searchWords} page={page} />
             </div>
         ); 
     }             
