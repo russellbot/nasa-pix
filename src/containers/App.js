@@ -32,7 +32,7 @@ function App() {
 
     useEffect(() => {
         loadFavorites();
-    },[favorites])
+    },[])
 
     const onSearchChange = (event) => {
         setSearchfield(event.target.value)
@@ -97,7 +97,7 @@ function App() {
         );
     })
     
-    const filteredFavorites = favorites.filter(pic => {
+    const filterPictures = (array) => array.filter(pic => {
         // Account for pictures without copyright information
         if (!pic.copyright) {pic.copyright = '';}
         // Return pictures with tite, explanation, or copyright that match the searchbox            
@@ -119,7 +119,7 @@ function App() {
             <div className="container">
                 <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
                 <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                <CardList pix={filteredPictures} saveFavorite={saveFavorite} searchWords={searchWords} />
+                <CardList pix={filterPictures(pictures)} saveFavorite={saveFavorite} searchWords={searchWords} />
                 <Added isAdded={isAdded} />
             </div>        
         );
@@ -128,7 +128,7 @@ function App() {
             <div className="container">
                 <Navigation loadMore={loadMorePictures} loadFavorites={loadFavoritesPage}/>
                 <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                <CardList pix={filteredFavorites} removeFavorite={removeFavorite} searchWords={searchWords} page={page} />
+                <CardList pix={filterPictures(favorites)} removeFavorite={removeFavorite} searchWords={searchWords} page={page} />
             </div>
         ); 
     }             
