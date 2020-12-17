@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
+
+import { setSearch } from '../actions'
 
 function App() {
     // constructor() {
