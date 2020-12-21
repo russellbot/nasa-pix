@@ -43,7 +43,7 @@ class App extends React.Component {
 
     componentDidMount() {
         this.loadFavorites();
-        this.loadMorePictures();                  
+        this.props.onRequestPictures();                 
     }
     // useEffect(() => {
     //     loadMorePictures();
@@ -110,7 +110,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange } = this.props;
+        const { searchField, onSearchChange, pictures, isPending } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -124,7 +124,7 @@ class App extends React.Component {
             );
         })
 
-        if (!this.state.pictures.length) {
+        if (isPending) {
             return (
                 <Loader />
             );
@@ -133,7 +133,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                    <CardList pix={filterPictures(this.state.pictures)} saveFavorite={this.saveFavorite} searchWords={searchWords} />
+                    <CardList pix={filterPictures(pictures)} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                     <Added isAdded={this.state.isAdded} />
                 </div>        
             );
