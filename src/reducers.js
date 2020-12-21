@@ -2,7 +2,9 @@ import {
     CHANGE_SEARCH_FIELD,
     REQUEST_PICTURES_PENDING,
     REQUEST_PICTURES_SUCCESS,
-    REQUEST_PICTURES_FAILED
+    REQUEST_PICTURES_FAILED,
+    REQUEST_FAVORITES_SUCCESS,
+    REQUEST_FAVORITES_EMPTY
 } from './constants.js';
 
 const initialStateSearch = {
@@ -35,4 +37,19 @@ export const requestPictures = (state=initialStatePictures, action={}) => {
         default:
             return state;
     }
-} 
+}
+
+const initialStateFavorites = {
+    favorites: []
+}
+
+export const requestFavorites = (state=initialStateFavorites, action=[]) => {
+    switch(action.type) {
+        case REQUEST_FAVORITES_EMPTY:
+            return state;
+        case REQUEST_FAVORITES_SUCCESS:
+            return { ...state, favorites: action.payload };
+        default:
+            return state;
+    }
+}

@@ -2,7 +2,9 @@ import {
     CHANGE_SEARCH_FIELD,
     REQUEST_PICTURES_PENDING,
     REQUEST_PICTURES_SUCCESS,
-    REQUEST_PICTURES_FAILED
+    REQUEST_PICTURES_FAILED,
+    REQUEST_FAVORITES_SUCCESS,
+    REQUEST_FAVORITES_EMPTY
 } from './constants.js';
 
 export const setSearchfield = (text) => ({
@@ -16,4 +18,13 @@ export const requestPictures = () => (dispatch) => {
         .then(response => response.json())
         .then(data => dispatch({ type: REQUEST_PICTURES_SUCCESS, payload: data }))
         .catch(error => dispatch({ tyep: REQUEST_PICTURES_FAILED, payload: error }))
+}
+
+export const requestFavorites = () => (dispatch) => {
+    if(localStorage.getItem('nasaFavorites')) {
+        let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+        dispatch({ type: REQUEST_FAVORITES_SUCCESS, payload: newFavorites })
+    } else {
+        dispatch({ type: REQUEST_FAVORITES_EMPTY, payload: [] })
+    }
 }

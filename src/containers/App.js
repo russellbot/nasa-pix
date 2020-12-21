@@ -6,7 +6,7 @@ import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-import { setSearchfield, requestPictures } from '../actions'
+import { setSearchfield, requestPictures, requestFavorites } from '../actions'
 
 const mapStateToProps = state => {
     return {
@@ -20,7 +20,8 @@ const mapStateToProps = state => {
 const mapDispatchToProps = (dispatch) => {
     return {
         onSearchChange: (event) => dispatch(setSearchfield(event.target.value)),
-        onRequestPictures: () => dispatch(requestPictures())
+        onRequestPictures: () => dispatch(requestPictures()),
+        onRequestFavorites: () => dispatch(requestFavorites())
     }
 }
 
@@ -35,6 +36,8 @@ class App extends React.Component {
             searchfield: '',
         }
     }
+
+    // HOOKS
     // const [pictures, setPictures] = useState([]);
     // const [favorites, setFavorites] = useState([]);
     // const [page, setPage] = useState('home');
@@ -42,9 +45,11 @@ class App extends React.Component {
     // const [searchfield, setSearchfield] = useState('');
 
     componentDidMount() {
-        this.loadFavorites();
+        this.props.onRequestFavorites();
         this.props.onRequestPictures();                 
     }
+
+    // HOOKS
     // useEffect(() => {
     //     loadMorePictures();
     //     loadFavorites();  
