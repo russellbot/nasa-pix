@@ -6,17 +6,21 @@ import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-import { setSearchfield } from '../actions'
+import { setSearchfield, requestPictures } from '../actions'
 
 const mapStateToProps = state => {
     return {
-        searchField: state.searchField
+        searchField: state.searchPictures.searchField,
+        pictures: state.requestPictures.pictures,
+        isPending: state.requestPictures.isPending,
+        error: state.requestPictures.error
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        onSearchChange: (event) => dispatch(setSearchfield(event.target.value))
+        onSearchChange: (event) => dispatch(setSearchfield(event.target.value)),
+        onRequestPictures: () => dispatch(requestPictures())
     }
 }
 

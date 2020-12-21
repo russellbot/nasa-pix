@@ -10,10 +10,10 @@ export const setSearchfield = (text) => ({
     payload: text
 })
 
-export const requestPictures = (dispatch) => {
+export const requestPictures = () => (dispatch) => {
     dispatch({ type: REQUEST_PICTURES_PENDING});
     fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=10')
-    .then(response => response.json())
-    .then(data => dispatch({ type: REQUEST_PICTURES_SUCCESS, payload: data }))
-    .catch(error => dispatch({ tyep: REQUEST_PICTURES_FAILED, payload: error }))
+        .then(response => response.json())
+        .then(data => dispatch({ type: REQUEST_PICTURES_SUCCESS, payload: data }))
+        .catch(error => dispatch({ tyep: REQUEST_PICTURES_FAILED, payload: error }))
 }
