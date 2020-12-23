@@ -4,7 +4,9 @@ import {
     REQUEST_PICTURES_SUCCESS,
     REQUEST_PICTURES_FAILED,
     REQUEST_FAVORITES_SUCCESS,
-    REQUEST_FAVORITES_EMPTY
+    REQUEST_FAVORITES_EMPTY,
+    FAVORITES_PAGE,
+    HOME_PAGE
 } from './constants.js';
 
 const initialStateSearch = {
@@ -43,12 +45,27 @@ const initialStateFavorites = {
     favorites: []
 }
 
-export const requestFavorites = (state=initialStateFavorites, action=[]) => {
+export const requestFavorites = (state=initialStateFavorites, action={}) => {
     switch(action.type) {
         case REQUEST_FAVORITES_EMPTY:
             return state;
         case REQUEST_FAVORITES_SUCCESS:
             return { ...state, favorites: action.payload };
+        default:
+            return state;
+    }
+}
+
+const initialStatePage = {
+    page: 'home'
+}
+
+const changePage = (state=initialStatePage, action={}) => {
+    switch (action.type) {
+        case FAVORITES_PAGE:
+            return { ...state, page: 'favorites' };
+        case HOME_PAGE:
+            return state;
         default:
             return state;
     }

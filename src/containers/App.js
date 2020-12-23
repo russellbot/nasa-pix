@@ -12,6 +12,7 @@ const mapStateToProps = state => {
     return {
         searchField: state.searchPictures.searchField,
         pictures: state.requestPictures.pictures,
+        favorites: state.requestFavorites.favorites,
         isPending: state.requestPictures.isPending,
         error: state.requestPictures.error
     }

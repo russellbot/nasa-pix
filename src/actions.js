@@ -4,7 +4,9 @@ import {
     REQUEST_PICTURES_SUCCESS,
     REQUEST_PICTURES_FAILED,
     REQUEST_FAVORITES_SUCCESS,
-    REQUEST_FAVORITES_EMPTY
+    REQUEST_FAVORITES_EMPTY,
+    FAVORITES_PAGE,
+    HOME_PAGE
 } from './constants.js';
 
 export const setSearchfield = (text) => ({
@@ -28,3 +30,8 @@ export const requestFavorites = () => (dispatch) => {
         dispatch({ type: REQUEST_FAVORITES_EMPTY, payload: [] })
     }
 }
+
+export const switchPage = () => ({
+    type: FAVORITES_PAGE,
+    payload: []
+})
