@@ -65,7 +65,7 @@ const changePage = (state=initialStatePage, action={}) => {
         case FAVORITES_PAGE:
             return { ...state, page: 'favorites' };
         case HOME_PAGE:
-            return state;
+            return { ...state, page: 'home'};
         default:
             return state;
     }
