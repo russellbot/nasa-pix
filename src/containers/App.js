@@ -6,7 +6,7 @@ import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-import { setSearchfield, requestPictures, requestFavorites } from '../actions'
+import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites } from '../actions'
 
 const mapStateToProps = state => {
     return {
@@ -14,7 +14,8 @@ const mapStateToProps = state => {
         pictures: state.requestPictures.pictures,
         favorites: state.requestFavorites.favorites,
         isPending: state.requestPictures.isPending,
-        error: state.requestPictures.error
+        error: state.requestPictures.error, 
+        page: state.changePage.page
     }
 }
 
@@ -22,7 +23,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         onSearchChange: (event) => dispatch(setSearchfield(event.target.value)),
         onRequestPictures: () => dispatch(requestPictures()),
-        onRequestFavorites: () => dispatch(requestFavorites())
+        onRequestFavorites: () => dispatch(requestFavorites()),
+        changePageFavorites: () => dispatch(switchPageFavorites())
     }
 }
 
@@ -116,7 +118,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange, pictures, isPending } = this.props;
+        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -134,21 +136,21 @@ class App extends React.Component {
             return (
                 <Loader />
             );
-        } else if (this.state.page === 'home') {
+        } else if (this.props.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
+                    <Navigation loadMore={this.loadMorePictures} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
                     <CardList pix={filterPictures(pictures)} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                     <Added isAdded={this.state.isAdded} />
                 </div>        
             );
-        } else if (this.state.page === 'favorites') {
+        } else if (this.props.page === 'favorites') {
             return (
                 <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={this.loadFavoritesPage}/>
+                    <Navigation loadMore={this.loadMorePictures} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                    <CardList pix={filterPictures(this.state.favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={this.state.page} />
+                    <CardList pix={filterPictures(favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={this.state.page} />
                 </div>
             ); 
         }             

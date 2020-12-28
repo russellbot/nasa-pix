@@ -31,7 +31,7 @@ export const requestFavorites = () => (dispatch) => {
     }
 }
 
-export const switchPage = () => ({
+export const switchPageFavorites = () => ({
     type: FAVORITES_PAGE,
-    payload: []
+    payload: 'favorites'
 })

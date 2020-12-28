@@ -7,11 +7,11 @@ import thunkMiddleware from 'redux-thunk';
 import './index.css';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
-import { searchPictures, requestPictures, requestFavorites } from './reducers';
+import { searchPictures, requestPictures, requestFavorites, changePage } from './reducers';
 import 'tachyons';
 
 const logger = createLogger();
-const rootReducer = combineReducers({ searchPictures, requestPictures, requestFavorites })
+const rootReducer = combineReducers({ searchPictures, requestPictures, requestFavorites, changePage })
 const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger))
 
 ReactDOM.render(

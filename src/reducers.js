@@ -60,10 +60,10 @@ const initialStatePage = {
     page: 'home'
 }
 
-const changePage = (state=initialStatePage, action={}) => {
+export const changePage = (state=initialStatePage, action={}) => {
     switch (action.type) {
         case FAVORITES_PAGE:
-            return { ...state, page: 'favorites' };
+            return { ...state, page: action.payload };
         case HOME_PAGE:
             return { ...state, page: 'home'};
         default:
