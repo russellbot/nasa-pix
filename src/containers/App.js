@@ -6,7 +6,7 @@ import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites } from '../actions'
+import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites, switchPageHome } from '../actions'
 
 const mapStateToProps = state => {
     return {
@@ -24,7 +24,8 @@ const mapDispatchToProps = (dispatch) => {
         onSearchChange: (event) => dispatch(setSearchfield(event.target.value)),
         onRequestPictures: () => dispatch(requestPictures()),
         onRequestFavorites: () => dispatch(requestFavorites()),
-        changePageFavorites: () => dispatch(switchPageFavorites())
+        changePageFavorites: () => dispatch(switchPageFavorites()),
+        changePageHome: () => dispatch(switchPageHome())
     }
 }
 
@@ -118,7 +119,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites } = this.props;
+        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -139,7 +140,7 @@ class App extends React.Component {
         } else if (this.props.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={changePageFavorites}/>
+                    <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
                     <CardList pix={filterPictures(pictures)} saveFavorite={this.saveFavorite} searchWords={searchWords} />
                     <Added isAdded={this.state.isAdded} />
@@ -148,7 +149,7 @@ class App extends React.Component {
         } else if (this.props.page === 'favorites') {
             return (
                 <div className="container">
-                    <Navigation loadMore={this.loadMorePictures} loadFavorites={changePageFavorites}/>
+                    <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
                     <CardList pix={filterPictures(favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={this.state.page} />
                 </div>

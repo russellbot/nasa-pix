@@ -35,3 +35,8 @@ export const switchPageFavorites = () => ({
     type: FAVORITES_PAGE,
     payload: 'favorites'
 })
+
+export const switchPageHome = () => ({
+    type: HOME_PAGE,
+    payload: 'home'
+})
