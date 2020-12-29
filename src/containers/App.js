@@ -6,13 +6,14 @@ import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites, switchPageHome } from '../actions'
+import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites, switchPageHome, addFavorite } from '../actions'
 
 const mapStateToProps = state => {
     return {
         searchField: state.searchPictures.searchField,
         pictures: state.requestPictures.pictures,
-        favorites: state.requestFavorites.favorites,
+        favorites: state.favoritesReducer.favorites,
+        isAdded: state.favoritesReducer.isAdded,
         isPending: state.requestPictures.isPending,
         error: state.requestPictures.error, 
         page: state.changePage.page
@@ -25,21 +26,22 @@ const mapDispatchToProps = (dispatch) => {
         onRequestPictures: () => dispatch(requestPictures()),
         onRequestFavorites: () => dispatch(requestFavorites()),
         changePageFavorites: () => dispatch(switchPageFavorites()),
-        changePageHome: () => dispatch(switchPageHome())
+        changePageHome: () => dispatch(switchPageHome()),
+        saveFavorite: (picture) => dispatch(addFavorite(picture))
     }
 }
 
 class App extends React.Component {
-    constructor() {
-        super()
-        this.state = {
-            pictures: [],
-            favorites: [],
-            page: 'home',
-            isAdded: false,
-            searchfield: '',
-        }
-    }
+    // constructor() {
+    //     super()
+    //     this.state = {
+    //         pictures: [],
+    //         favorites: [],
+    //         page: 'home',
+    //         isAdded: false,
+    //         searchfield: '',
+    //     }
+    // }
 
     // HOOKS
     // const [pictures, setPictures] = useState([]);
@@ -119,7 +121,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome } = this.props;
+        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome, isAdded, addFavorite, page } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -142,8 +144,8 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                    <CardList pix={filterPictures(pictures)} saveFavorite={this.saveFavorite} searchWords={searchWords} />
-                    <Added isAdded={this.state.isAdded} />
+                    <CardList pix={filterPictures(pictures)} saveFavorite={addFavorite} searchWords={searchWords} />
+                    <Added isAdded={isAdded} />
                 </div>        
             );
         } else if (this.props.page === 'favorites') {
@@ -151,7 +153,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                    <CardList pix={filterPictures(favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={this.state.page} />
+                    <CardList pix={filterPictures(favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
                 </div>
             ); 
         }             

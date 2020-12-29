@@ -6,7 +6,9 @@ import {
     REQUEST_FAVORITES_SUCCESS,
     REQUEST_FAVORITES_EMPTY,
     FAVORITES_PAGE,
-    HOME_PAGE
+    HOME_PAGE,
+    ADD_FAVORITE,
+    SHOW_CONFIRMATION
 } from './constants.js';
 
 const initialStateSearch = {
@@ -42,15 +44,27 @@ export const requestPictures = (state=initialStatePictures, action={}) => {
 }
 
 const initialStateFavorites = {
-    favorites: []
+    favorites: [],
+    isAdded: false
 }
 
-export const requestFavorites = (state=initialStateFavorites, action={}) => {
+export const favoritesReducer = (state=initialStateFavorites, action={}) => {
     switch(action.type) {
         case REQUEST_FAVORITES_EMPTY:
-            return state;
+            return { ...state, favorites: [] };
         case REQUEST_FAVORITES_SUCCESS:
             return { ...state, favorites: action.payload };
+        case ADD_FAVORITE:
+            return { ...state, favorites: action.payload };
+        default:
+            return state;
+    }
+}
+
+export const addedConfirmation = (state=initialStateFavorites, action={}) => {
+    switch(action.type) {
+        case SHOW_CONFIRMATION:
+            return { ...state, isAdded: action.payload };
         default:
             return state;
     }

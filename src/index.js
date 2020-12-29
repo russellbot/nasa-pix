@@ -1,18 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, combineReducers } from 'redux';
+import { createStore, applyMiddleware, combineReducers, compose } from 'redux';
 import { createLogger } from 'redux-logger';
 import thunkMiddleware from 'redux-thunk';
 import './index.css';
 import App from './containers/App';
 import reportWebVitals from './reportWebVitals';
-import { searchPictures, requestPictures, requestFavorites, changePage } from './reducers';
+import { searchPictures, requestPictures, favoritesReducer, changePage } from './reducers';
 import 'tachyons';
 
 const logger = createLogger();
-const rootReducer = combineReducers({ searchPictures, requestPictures, requestFavorites, changePage })
-const store = createStore(rootReducer, applyMiddleware(thunkMiddleware, logger))
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const rootReducer = combineReducers({ searchPictures, requestPictures, favoritesReducer, changePage })
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunkMiddleware, logger)))
 
 ReactDOM.render(
   <React.StrictMode>

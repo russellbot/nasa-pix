@@ -7,7 +7,8 @@ import {
     REQUEST_FAVORITES_EMPTY,
     FAVORITES_PAGE,
     HOME_PAGE,
-    ADD_FAVORITE
+    ADD_FAVORITE,
+    SHOW_CONFIRMATION
 } from './constants.js';
 
 export const setSearchfield = (text) => ({
@@ -42,7 +43,7 @@ export const switchPageHome = () => ({
     payload: 'home'
 })
 
-export const addFavorite = (picture) => (dispatch) {
+export const addFavorite = (picture) => (dispatch) => {
     let newFavorites = localStorage.getItem('nasaFavorites');
     if(!newFavorites.includes(picture.object)) {
         // add picture to favorites array
