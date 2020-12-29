@@ -8,6 +8,7 @@ import {
     FAVORITES_PAGE,
     HOME_PAGE,
     ADD_FAVORITE,
+    DELETE_FAVORITE,
     SHOW_CONFIRMATION
 } from './constants.js';
 
@@ -48,12 +49,8 @@ export const switchPageHome = () => ({
 
 export const addFavorite = (picture) => (dispatch) => {
     let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
-    console.log('favorites', newFavorites);
-    console.log('picture.object', picture.object);
-    console.log(!newFavorites.includes(picture.object));
     if(!newFavorites.includes(picture.object)) {
         // add picture to favorites array
-        console.log(Array.isArray(newFavorites));
         newFavorites.push(picture.object);
         dispatch({ type: ADD_FAVORITE, payload: newFavorites })
         // Set favorites in localStorage
@@ -64,4 +61,15 @@ export const addFavorite = (picture) => (dispatch) => {
             dispatch({ type: SHOW_CONFIRMATION, payload: false })
         }, 2000);
     }
+}
+
+export const removeFavorite = (picture) => (dispatch) => {
+    let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+    // remove the selected picture
+    const filteredFavorites = newFavorites.filter((item) => item.explanation !== picture.object.explanation);
+    dispatch({ type: DELETE_FAVORITE, payload: filteredFavorites })
+    // save new favorites array in local storage
+    localStorage.setItem('nasaFavorites', JSON.stringify(filteredFavorites));
+    // reload favorites page
+    dispatch({ type: FAVORITES_PAGE, payload: 'favorites' })   
 }

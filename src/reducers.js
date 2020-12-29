@@ -8,6 +8,7 @@ import {
     FAVORITES_PAGE,
     HOME_PAGE,
     ADD_FAVORITE,
+    DELETE_FAVORITE,
     SHOW_CONFIRMATION
 } from './constants.js';
 
@@ -54,6 +55,8 @@ export const favoritesReducer = (state=initialStateFavorites, action={}) => {
         case REQUEST_FAVORITES_SUCCESS:
             return { ...state, favorites: action.payload };
         case ADD_FAVORITE:
+            return { ...state, favorites: action.payload };
+        case DELETE_FAVORITE:
             return { ...state, favorites: action.payload };
         default:
             return state;

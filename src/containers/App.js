@@ -6,7 +6,7 @@ import Navigation from '../components/Navigation';
 import Loader from '../components/Loader';
 import Added from '../components/Added';
 
-import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites, switchPageHome, addFavorite } from '../actions'
+import { setSearchfield, requestPictures, requestFavorites, switchPageFavorites, switchPageHome, addFavorite, removeFavorite } from '../actions'
 
 const mapStateToProps = state => {
     return {
@@ -27,7 +27,8 @@ const mapDispatchToProps = (dispatch) => {
         onRequestFavorites: () => dispatch(requestFavorites()),
         changePageFavorites: () => dispatch(switchPageFavorites()),
         changePageHome: () => dispatch(switchPageHome()),
-        saveFavorite: (picture) => dispatch(addFavorite(picture))
+        saveFavorite: (picture) => dispatch(addFavorite(picture)),
+        deleteFavorite: (picture) => dispatch(removeFavorite(picture))
     }
 }
 
@@ -121,7 +122,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome, isAdded, saveFavorite, page, onRequestPictures } = this.props;
+        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, isAdded, saveFavorite, deleteFavorite, page, onRequestPictures } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -153,7 +154,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadMore={onRequestPictures} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                    <CardList pix={filterPictures(favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
+                    <CardList pix={filterPictures(favorites)} removeFavorite={deleteFavorite} searchWords={searchWords} page={page} />
                 </div>
             ); 
         }             
