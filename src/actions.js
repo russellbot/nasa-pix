@@ -44,11 +44,17 @@ export const switchPageHome = () => ({
 })
 
 export const addFavorite = (picture) => (dispatch) => {
-    let newFavorites = localStorage.getItem('nasaFavorites');
+    let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+    console.log('favorites', newFavorites);
+    console.log('picture.object', picture.object);
+    console.log(!newFavorites.includes(picture.object));
     if(!newFavorites.includes(picture.object)) {
         // add picture to favorites array
-        newFavorites.push(picture.object)
+        console.log(Array.isArray(newFavorites));
+        newFavorites.push(picture.object);
         dispatch({ type: ADD_FAVORITE, payload: newFavorites })
+        // Set favorites in localStorage
+        localStorage.setItem('nasaFavorites', JSON.stringify(newFavorites));
         // Show save confirmation for 2 seconds
         // this.setState({ isAdded: true });
         dispatch({ type: SHOW_CONFIRMATION, payload: true })

@@ -44,8 +44,7 @@ export const requestPictures = (state=initialStatePictures, action={}) => {
 }
 
 const initialStateFavorites = {
-    favorites: [],
-    isAdded: false
+    favorites: []
 }
 
 export const favoritesReducer = (state=initialStateFavorites, action={}) => {
@@ -61,7 +60,11 @@ export const favoritesReducer = (state=initialStateFavorites, action={}) => {
     }
 }
 
-export const addedConfirmation = (state=initialStateFavorites, action={}) => {
+const initialStateAdded = {
+    isAdded: false
+}
+
+export const addedConfirmation = (state=initialStateAdded, action={}) => {
     switch(action.type) {
         case SHOW_CONFIRMATION:
             return { ...state, isAdded: action.payload };

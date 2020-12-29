@@ -13,7 +13,7 @@ const mapStateToProps = state => {
         searchField: state.searchPictures.searchField,
         pictures: state.requestPictures.pictures,
         favorites: state.favoritesReducer.favorites,
-        isAdded: state.favoritesReducer.isAdded,
+        isAdded: state.addedConfirmation.isAdded,
         isPending: state.requestPictures.isPending,
         error: state.requestPictures.error, 
         page: state.changePage.page
@@ -121,7 +121,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome, isAdded, addFavorite, page } = this.props;
+        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome, isAdded, saveFavorite, page } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -144,7 +144,7 @@ class App extends React.Component {
                 <div className="container">
                     <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
-                    <CardList pix={filterPictures(pictures)} saveFavorite={addFavorite} searchWords={searchWords} />
+                    <CardList pix={filterPictures(pictures)} saveFavorite={saveFavorite} searchWords={searchWords} />
                     <Added isAdded={isAdded} />
                 </div>        
             );
