@@ -110,16 +110,16 @@ class App extends React.Component {
     //     localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));       
     // }
 
-    removeFavorite = (picture) => {
-        let newFavorites = this.state.favorites
-        let index = newFavorites.indexOf(picture.object);
-        if (index !== -1) {
-            newFavorites.splice(index, 1);
-            this.setState({ favorites: newFavorites });
-            this.saveFavoritesLocalStorage();
-            this.loadFavorites();
-        }        
-    }
+    // removeFavorite = (picture) => {
+    //     let newFavorites = this.state.favorites
+    //     let index = newFavorites.indexOf(picture.object);
+    //     if (index !== -1) {
+    //         newFavorites.splice(index, 1);
+    //         this.setState({ favorites: newFavorites });
+    //         this.saveFavoritesLocalStorage();
+    //         this.loadFavorites();
+    //     }        
+    // }
     
     render() {
         const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, isAdded, saveFavorite, deleteFavorite, page, onRequestPictures } = this.props;
