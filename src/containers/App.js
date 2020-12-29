@@ -65,49 +65,49 @@ class App extends React.Component {
     //     setSearchfield(event.target.value)
     // }
 
-    loadMorePictures = () => {
-        this.setState({ page: 'home' });
-        const count = 10;
-        const apiKey = 'DEMO_KEY';
-        const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
+    // loadMorePictures = () => {
+    //     this.setState({ page: 'home' });
+    //     const count = 10;
+    //     const apiKey = 'DEMO_KEY';
+    //     const apiUrl = `https://api.nasa.gov/planetary/apod?api_key=${apiKey}&count=${count}`;
 
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(newPics => {this.setState({ pictures: newPics})});
-    }
+    //     fetch(apiUrl)
+    //         .then(response => response.json())
+    //         .then(newPics => {this.setState({ pictures: newPics})});
+    // }
 
-    loadFavorites = () => {
-        if(localStorage.getItem('nasaFavorites')) {
-            let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
-            this.setState({ favorites: newFavorites });
-        }
-    }
+    // loadFavorites = () => {
+    //     if(localStorage.getItem('nasaFavorites')) {
+    //         let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+    //         this.setState({ favorites: newFavorites });
+    //     }
+    // }
 
-    saveFavoritesLocalStorage = () => {
-        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
-    }
+    // saveFavoritesLocalStorage = () => {
+    //     localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));
+    // }
 
-    loadFavoritesPage = () => {
-        this.setState({ page: 'favorites' })
-        this.loadFavorites();
-    }
+    // loadFavoritesPage = () => {
+    //     this.setState({ page: 'favorites' })
+    //     this.loadFavorites();
+    // }
 
-    saveFavorite = (picture) => {
-        let newFavorites = this.state.favorites;
-        // check if picture already exists in favorites
-        if(!newFavorites.includes(picture.object)) {
-            // add picture to favorites array
-            newFavorites.push(picture.object)
-            this.setState({ favorites: newFavorites });
-            // Show save confirmation for 2 seconds
-            this.setState({ isAdded: true });
-            setTimeout(() => {
-                this.setState({ isAdded: false });
-            }, 2000);
-        }
-        // Set favorites in localStorage
-        localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));       
-    }
+    // saveFavorite = (picture) => {
+    //     let newFavorites = this.state.favorites;
+    //     // check if picture already exists in favorites
+    //     if(!newFavorites.includes(picture.object)) {
+    //         // add picture to favorites array
+    //         newFavorites.push(picture.object)
+    //         this.setState({ favorites: newFavorites });
+    //         // Show save confirmation for 2 seconds
+    //         this.setState({ isAdded: true });
+    //         setTimeout(() => {
+    //             this.setState({ isAdded: false });
+    //         }, 2000);
+    //     }
+    //     // Set favorites in localStorage
+    //     localStorage.setItem('nasaFavorites', JSON.stringify(this.state.favorites));       
+    // }
 
     removeFavorite = (picture) => {
         let newFavorites = this.state.favorites
@@ -121,7 +121,7 @@ class App extends React.Component {
     }
     
     render() {
-        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome, isAdded, saveFavorite, page } = this.props;
+        const { searchField, onSearchChange, pictures, favorites, isPending, changePageFavorites, changePageHome, isAdded, saveFavorite, page, onRequestPictures } = this.props;
         const searchWords = searchField;   
 
         const filterPictures = (array) => array.filter(pic => {
@@ -142,7 +142,7 @@ class App extends React.Component {
         } else if (this.props.page === 'home') {
             return (
                 <div className="container">
-                    <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
+                    <Navigation loadMore={onRequestPictures} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
                     <CardList pix={filterPictures(pictures)} saveFavorite={saveFavorite} searchWords={searchWords} />
                     <Added isAdded={isAdded} />
@@ -151,7 +151,7 @@ class App extends React.Component {
         } else if (this.props.page === 'favorites') {
             return (
                 <div className="container">
-                    <Navigation loadMore={changePageHome} loadFavorites={changePageFavorites}/>
+                    <Navigation loadMore={onRequestPictures} loadFavorites={changePageFavorites}/>
                     <span className="searchbox"><SearchBox searchChange={onSearchChange} /></span>
                     <CardList pix={filterPictures(favorites)} removeFavorite={this.removeFavorite} searchWords={searchWords} page={page} />
                 </div>

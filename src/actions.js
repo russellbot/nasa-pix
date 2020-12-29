@@ -20,8 +20,11 @@ export const requestPictures = () => (dispatch) => {
     dispatch({ type: REQUEST_PICTURES_PENDING});
     fetch('https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY&count=10')
         .then(response => response.json())
-        .then(data => dispatch({ type: REQUEST_PICTURES_SUCCESS, payload: data }))
-        .catch(error => dispatch({ tyep: REQUEST_PICTURES_FAILED, payload: error }))
+        .then(data => {
+            dispatch({ type: REQUEST_PICTURES_SUCCESS, payload: data }); 
+            dispatch({ type: HOME_PAGE, payload: 'home' });
+        })
+        .catch(error => dispatch({ type: REQUEST_PICTURES_FAILED, payload: error }))
 }
 
 export const requestFavorites = () => (dispatch) => {
@@ -39,9 +42,9 @@ export const switchPageFavorites = () => ({
 })
 
 export const switchPageHome = () => ({
-    type: HOME_PAGE,
+    type: HOME_PAGE, 
     payload: 'home'
-})
+});
 
 export const addFavorite = (picture) => (dispatch) => {
     let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
@@ -56,7 +59,6 @@ export const addFavorite = (picture) => (dispatch) => {
         // Set favorites in localStorage
         localStorage.setItem('nasaFavorites', JSON.stringify(newFavorites));
         // Show save confirmation for 2 seconds
-        // this.setState({ isAdded: true });
         dispatch({ type: SHOW_CONFIRMATION, payload: true })
         setTimeout(() => {
             dispatch({ type: SHOW_CONFIRMATION, payload: false })
