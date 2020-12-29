@@ -6,7 +6,8 @@ import {
     REQUEST_FAVORITES_SUCCESS,
     REQUEST_FAVORITES_EMPTY,
     FAVORITES_PAGE,
-    HOME_PAGE
+    HOME_PAGE,
+    ADD_FAVORITE
 } from './constants.js';
 
 export const setSearchfield = (text) => ({
@@ -40,3 +41,18 @@ export const switchPageHome = () => ({
     type: HOME_PAGE,
     payload: 'home'
 })
+
+export const addFavorite = (picture) => (dispatch) {
+    let newFavorites = localStorage.getItem('nasaFavorites');
+    if(!newFavorites.includes(picture.object)) {
+        // add picture to favorites array
+        newFavorites.push(picture.object)
+        dispatch({ type: ADD_FAVORITE, payload: newFavorites })
+        // Show save confirmation for 2 seconds
+        // this.setState({ isAdded: true });
+        dispatch({ type: SHOW_CONFIRMATION, payload: true })
+        setTimeout(() => {
+            dispatch({ type: SHOW_CONFIRMATION, payload: false })
+        }, 2000);
+    }
+}
