@@ -48,7 +48,10 @@ export const switchPageHome = () => ({
 });
 
 export const addFavorite = (picture) => (dispatch) => {
-    let newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+    let newFavorites = [];
+    if (localStorage.getItem('nasaFavorites')) {
+        newFavorites = JSON.parse(localStorage.getItem('nasaFavorites'));
+    } 
     if(!newFavorites.includes(picture.object)) {
         // add picture to favorites array
         newFavorites.push(picture.object);
