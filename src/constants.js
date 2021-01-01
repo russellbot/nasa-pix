@@ -12,4 +12,5 @@ export const HOME_PAGE = 'HOME_PAGE';
 
 export const ADD_FAVORITE = 'ADD_FAVORITE';
 export const DELETE_FAVORITE = 'DELETE_FAVORITE';
+
 export const SHOW_CONFIRMATION = 'SHOW_CONFIRMATION';
